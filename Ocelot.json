@@ -1,7 +1,8 @@
-﻿{
+﻿//Auth Endpoints Ocelot configuration
+{
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/auth/login", // Ocelot gateway will forward the request to the actual service using this endpoint
+      "DownstreamPathTemplate": "/api/auth/{everything}", //this is what ocelot forwards to downstream service
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -9,8 +10,8 @@
           "Port": 7001
         }
       ],
-      "UpstreamPathTemplate": "/gateway/auth/login", // Client will call this endpoint
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamPathTemplate": "/gateway/auth/{everything}", //this is what client calls //everything is a placeholder for any path after auth
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     }
   ],
   "GlobalConfiguration": {

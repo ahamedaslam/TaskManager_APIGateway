@@ -3,24 +3,34 @@ using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-#region ================== Load Ocelot Config ==================
+// Load Ocelot configuration from ocelot.json
+builder.Configuration.AddJsonFile(
+    "ocelot.json",
+    optional: false,
+    reloadOnChange: true);
 
-builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
 
-#endregion
+// Add CORS policy to allow requests from the Angular frontend
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 
-#region ================== Services ==================
 
+// Add Ocelot services to the DI container
 builder.Services.AddOcelot();
-
-#endregion
 
 var app = builder.Build();
 
-#region ================== Middleware ==================
+app.UseCors("AllowAngular");
 
 await app.UseOcelot();
-
-#endregion
 
 app.Run();

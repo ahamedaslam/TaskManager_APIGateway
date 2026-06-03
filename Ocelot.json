@@ -1,19 +1,43 @@
-﻿//Auth Endpoints Ocelot configuration
-{
+﻿{
   "Routes": [
+
+
+    // #region ================== Auth Service ==================
+
     {
-      "DownstreamPathTemplate": "/api/auth/{everything}", //this is what ocelot forwards to downstream service
+      "UpstreamPathTemplate": "/gateway/auth/{everything}", //client calls here
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "PATCH", "DELETE" ],
+      "DownstreamPathTemplate": "/api/auth/{everything}", //gateway calls here
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
           "Port": 7001
         }
-      ],
-      "UpstreamPathTemplate": "/gateway/auth/{everything}", //this is what client calls //everything is a placeholder for any path after auth
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+      ]
+    },
+
+    // #endregion
+
+    // #region ================== Task Manager Service ==================
+
+    {
+      "UpstreamPathTemplate": "/gateway/taskmanager/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "PATCH", "DELETE" ],
+      "DownstreamPathTemplate": "/api/taskmanager/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7002
+        }
+      ]
     }
+
+    // #endregion
+
   ],
+
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:7000"
   }

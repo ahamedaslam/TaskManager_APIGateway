@@ -3,11 +3,10 @@ using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Load Ocelot configuration from ocelot.json
-builder.Configuration.AddJsonFile(
-    "ocelot.json",
-    optional: false,
-    reloadOnChange: true);
+// Load Ocelot configuration from Ocelot.json and Ocelot.{Environment}.json
+builder.Configuration
+    .AddJsonFile("Ocelot.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"Ocelot.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
 
 // Add CORS policy to allow requests from the Angular frontend

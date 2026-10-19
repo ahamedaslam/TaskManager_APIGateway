@@ -6,7 +6,7 @@
     {
       "UpstreamPathTemplate": "/gateway/auth/{everything}", //client calls here
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "PATCH", "DELETE" ],
-      "DownstreamPathTemplate": "/api/auth/{everything}", //gateway calls here
+      "DownstreamPathTemplate": "/{everything}", //gateway calls here
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
